@@ -16,10 +16,14 @@ import {
   setDoc,
   serverTimestamp,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { firestore } from "../../firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AiOutlineEdit } from "react-icons/ai";
+
+const profileDocRef = collection(firestore, "profiles");
 
 const Profile = () => {
   const {
@@ -31,9 +35,11 @@ const Profile = () => {
     prevStep,
     resetStep,
   } = useMultistepForm();
+  const navigate = useNavigate();
   const location = useLocation();
   const profileValues = location.state;
-  const [disableFields, setDisableFields] = useState(true)
+  const [disableFields, setDisableFields] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   if (!profileValues)
     return (
@@ -51,37 +57,34 @@ const Profile = () => {
       return nextStep();
     }
     try {
+      if (!isEditing) return;
+      if (isEditing && profileValues === values) return;
       setSubmitting(true);
       Swal.fire({
-        title: "Submitting Form",
-        text: "Uploading Student Profile. Please wait...",
+        title: "Updating Record",
+        text: "Updating Student Profile. Please wait...",
         allowEscapeKey: false,
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         },
       });
-      const profileDocRef = collection(firestore, "profiles");
-      const docRef = await addDoc(profileDocRef, {});
-      await setDoc(doc(profileDocRef, docRef.id), {
+      await updateDoc(doc(profileDocRef, values.docId), {
         ...values,
-        docId: docRef.id,
-        updatedAt: null,
-        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       });
       Swal.close();
-      await Swal.fire({
+      Swal.fire({
         icon: "success",
-        title: "Profile Recorded!",
-        text: "Student profile successfully recorded!",
-        showConfirmButton: true,
-        confirmButtonText: "Confirm",
-        confirmButtonColor: "#3b82f6",
+        title: "Profile Updated!",
+        showConfirmButton: false,
         customClass: {
           title: "text-xl",
           htmlContainer: "swal2-text-body",
         },
       });
+      setIsEditing(false);
+      navigate(-1);
       resetStep();
       resetForm();
       setSubmitting(false);
@@ -99,6 +102,41 @@ const Profile = () => {
         },
       });
     }
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setDisableFields(false);
+  };
+
+  const handleCancelClick = async (formProps) => {
+    try {
+      if (isEditing && profileValues === formProps.values) {
+        setDisableFields(true);
+        setIsEditing(false);
+        return;
+      }
+      await Swal.fire({
+        title: "Are you sure you want to exit?",
+        text: "Your changes will not be saved",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "Confirm",
+        reverseButtons: true,
+        confirmButtonColor: "#3b82f6",
+        cancelButtonColor: "#6b7280",
+        customClass: {
+          title: "text-xl",
+          htmlContainer: "swal2-text-body",
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setIsEditing(false);
+          setDisableFields(true);
+          formProps.resetForm();
+        }
+      });
+    } catch (error) {}
   };
 
   const RenderForms = (formProps) => {
@@ -135,7 +173,25 @@ const Profile = () => {
         <div className="relative">
           <Form className="grid grid-cols-3 items-start gap-2 p-2">
             <div className="col-span-full flex items-center justify-between">
-              <h1 className="text-2xl font-bold">{formTitle}</h1>
+              <div className="flex items-baseline gap-4">
+                <h1 className="text-2xl font-bold">{formTitle}</h1>
+                {!isEditing ? (
+                  <div
+                    className="hover:text-whit flex cursor-pointer items-center gap-0.5 rounded-sm border border-blue-500 px-2 py-0.5 text-xs text-blue-500 hover:bg-blue-500 hover:text-white"
+                    onClick={handleEditClick}
+                  >
+                    <AiOutlineEdit size={12} />
+                    <div className="text-xs font-semibold">Edit Record</div>
+                  </div>
+                ) : (
+                  <div
+                    className="hover:text-whit flex cursor-pointer items-center gap-0.5 rounded-sm border border-gray-500 px-2 py-0.5 text-xs text-gray-500 hover:bg-gray-500 hover:text-white"
+                    onClick={() => handleCancelClick(formProps)}
+                  >
+                    <div className="text-xs font-semibold">Cancel</div>
+                  </div>
+                )}
+              </div>
               <span className="text-xs font-bold">
                 {step} / {stepTitles.length}
               </span>
@@ -145,6 +201,9 @@ const Profile = () => {
               step={step}
               onClickPrevStep={prevStep}
               isSubmitting={formProps.isSubmitting}
+              onEditPage={true}
+              isEditing={isEditing}
+              onEditClick={handleEditClick}
             />
           </Form>
         </div>
