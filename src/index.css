@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rdt_TableHeader {
+  /* background-color: #3b82f6 !important; */
+}
+.sc-fPXMVe {
+  /* color:  #3b82f6; */
+  font-weight: 700 !important;
+  /* text-align: center !important; */
+}
