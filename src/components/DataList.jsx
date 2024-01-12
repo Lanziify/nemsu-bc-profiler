@@ -8,46 +8,60 @@ const DataList = (props) => {
       name: "Document ID",
       selector: (data) => data.docId.toUpperCase(),
       sortable: true,
+      wrap: true,
       grow: 2,
     },
     {
       name: "Name",
       selector: (data) => getName(data),
       sortable: true,
-      grow: 3,
+      wrap: true,
+      grow: 2,
     },
     {
       name: "Email Address",
       selector: (data) => data.personalData.email,
       sortable: true,
+      wrap: true,
       hide: "md",
-      grow: 3,
+      grow: 2,
+    },
+    {
+      name: "Home Address",
+      selector: (data) => data.personalData.homeAddress,
+      sortable: true,
+      wrap: true,
+      hide: "lg",
+      grow: 2,
     },
     {
       name: "Contact",
       selector: (data) => data.personalData.contact,
       sortable: true,
+      wrap: true,
       hide: "sm",
     },
     {
       name: "Age",
       selector: (data) => data.personalData.age,
       sortable: true,
-      hide: "sm",
+      wrap: true,
+      hide: "lg",
     },
     {
       name: "Sex",
       selector: (data) => sentenceCase(data.personalData.sex),
       sortable: true,
-      hide: "sm",
+      wrap: true,
+      hide: "lg",
     },
     {
       name: "Course",
       selector: (data) => data.personalData.course.toUpperCase(),
       sortable: true,
-      hide: "md",
+      wrap: true,
+      // hide: "md",
       right: true,
-      grow: 2,
     },
   ];
 
@@ -75,14 +89,6 @@ const DataList = (props) => {
     noData: {
       style: {},
     },
-    rows: {
-      style: {
-        // backgroundColor: "#ecf0f3",
-      },
-    },
-    columns: {
-      style: {},
-    },
     pagination: {
       style: {
         backgroundColor: "#fff",
@@ -103,7 +109,6 @@ const DataList = (props) => {
       customStyles={tableStyle}
       pagination
       responsive={true}
-      selectableRows
       onRowClicked={props.onRowClicked}
     />
   );

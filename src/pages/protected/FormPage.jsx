@@ -119,20 +119,20 @@ const FormPage = () => {
       onSubmit={handleSubmit}
     >
       {(formProps) => (
-        <div className="relative">
-          <Form className="grid grid-cols-3 items-start gap-2 p-2">
-            <div className="col-span-full flex items-center justify-between">
-              <h1 className="text-2xl font-bold">{formTitle}</h1>
-              <span className="text-xs font-bold">{step} / {stepTitles.length}</span>
-            </div>
-            <RenderForms {...formProps} />
-            <FormButtons
-              step={step}
-              onClickPrevStep={prevStep}
-              isSubmitting={formProps.isSubmitting}
-            />
-          </Form>
-        </div>
+        <Form className="grid grid-cols-3 items-start gap-2 p-4">
+          <div className="col-span-full flex items-center justify-between">
+            <h1 className="text-2xl font-bold">{formTitle}</h1>
+            <span className="text-xs font-bold">
+              {step} / {stepTitles.length}
+            </span>
+          </div>
+          <RenderForms {...formProps} />
+          <FormButtons
+            step={step}
+            onClickPrevStep={prevStep}
+            isSubmitting={formProps.isSubmitting}
+          />
+        </Form>
       )}
     </Formik>
   );

@@ -13,15 +13,14 @@ import CheckList from "../../components/CheckList";
 import {
   collection,
   doc,
-  setDoc,
   serverTimestamp,
-  addDoc,
   updateDoc,
 } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { firestore } from "../../firebase";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineEdit } from "react-icons/ai";
+import { IoChevronBack } from "react-icons/io5";
 
 const profileDocRef = collection(firestore, "profiles");
 
@@ -171,9 +170,16 @@ const Profile = () => {
     >
       {(formProps) => (
         <div className="relative">
-          <Form className="grid grid-cols-3 items-start gap-2 p-2">
+          <Form className="grid grid-cols-3 items-start gap-2 p-4">
+            <NavLink
+              to="/settings"
+              className="flex items-center gap-1 text-sm font-semibold hover:opacity-50 "
+            >
+              <IoChevronBack size={18} />
+              <div>Return</div>
+            </NavLink>
             <div className="col-span-full flex items-center justify-between">
-              <div className="flex items-baseline gap-4">
+              <div className="flex items-center gap-4">
                 <h1 className="text-2xl font-bold">{formTitle}</h1>
                 {!isEditing ? (
                   <div

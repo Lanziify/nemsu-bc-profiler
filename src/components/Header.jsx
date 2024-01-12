@@ -6,10 +6,10 @@ const Header = (props) => {
   const location = useLocation();
 
   return (
-    <div className="invisible left-0 right-0 top-0 z-20 hidden bg-blue-500 max-sm:visible max-sm:fixed max-sm:block">
-      <div className="m-auto flex max-w-7xl items-center justify-between p-2">
+    <div className="left-0 right-0 top-0 z-20  bg-blue-500 fixed">
+      <div className="m-auto flex items-center justify-between p-2">
         <div
-          className="w-fit rounded-md bg-blue-600 p-1 text-white"
+          className="w-fit rounded-md bg-blue-600 select-none cursor-pointer p-1 text-white"
           onClick={props.onMenuClick}
         >
           <MdMenu size={24} />

@@ -59,7 +59,7 @@ const Protected = () => {
   return user ? (
     <div className="relative">
       <Header onMenuClick={() => setShowMenu(!showMenu)} />
-      <div className="relative m-auto flex min-h-[100vh] max-w-7xl gap-2 p-2 max-sm:pt-14">
+      <div className="relative m-auto bg-white flex pt-[48px]">
         <Menu
           showMenu={showMenu}
           onMenuClick={() => {
@@ -68,7 +68,7 @@ const Protected = () => {
             }
           }}
         />
-        <div className="relative h-fit flex-1 rounded-md bg-white">
+        <div className="relative h-fit flex-1">
           <Outlet />
         </div>
       </div>

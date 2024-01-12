@@ -9,15 +9,17 @@ import StudentForm from "./pages/protected/FormPage";
 import NotFound from "./pages/protected/NotFound";
 import Profile from "./pages/protected/Profile";
 import Register from "./pages/public/Register";
+import ChangePassword from "./pages/protected/ChangePassword";
 
 const App = () => {
   return (
     <Routes>
       <Route element={<Protected />}>
         <Route path="student-form" index element={<StudentForm />} />
-        <Route path="records" index element={<Records />} />
-        <Route path="records/profile/:id" index element={<Profile />} />
-        <Route path="settings" index element={<Settings />} />
+        <Route path="records" element={<Records />} />
+        <Route path="records/profile/:id" element={<Profile />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="settings/change_password" element={<ChangePassword />} />
         <Route path="" element={<Navigate replace to="student-form" />} />
       </Route>
 

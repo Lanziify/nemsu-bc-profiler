@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  MdDashboard,
+  MdEditDocument,
   MdFolder,
   MdPerson,
   MdSettings,
@@ -17,7 +17,7 @@ const Menu = (props) => {
     {
       name: "Student Form",
       path: "student-form",
-      icon: <MdDashboard size={18} />,
+      icon: <MdEditDocument size={18} />,
     },
     {
       name: "Student Records",
@@ -48,7 +48,7 @@ const Menu = (props) => {
     return;
 
   return (
-    <div className="max:sm:bottom-0 sticky bottom-0 top-2 z-10 flex  max-h-[calc(100vh_-_16px)] flex-col justify-between overflow-hidden rounded-md border bg-white max-sm:fixed max-sm:left-0 max-sm:right-0 max-sm:top-12 max-sm:max-h-full max-sm:rounded-none max-sm:border-none">
+    <div className="min-w-[15rem] sticky top-[48px] h-[calc(100vh_-_48px)] z-10 flex flex-col justify-between overflow-hidden border-r bg-white max-sm:fixed max-sm:left-0 max-sm:right-0 max-sm:top-12 max-sm:max-h-full max-sm:rounded-none max-sm:border-none">
       <div className="">
         <div className="bg-blue-500 p-4 text-white">
           <div className="mb-4">
